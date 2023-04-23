@@ -28,47 +28,52 @@ gsap.registerPlugin(ScrollTrigger);
 
 onMounted(() => {
   const items = document.querySelectorAll(".item");
+  const screenWidth = window.innerWidth;
 
   items.forEach((item, index) => {
-    if (index === 0) {
-      gsap.set(item, { opacity: 1, y: 0 });
-    } else {
-      gsap.set(item, { opacity: 0, y: 50 });
-    }
+    if (screenWidth <= 1280) {
+      if (index === 0) {
+        gsap.set(item, { opacity: 1, y: 0 });
+      } else {
+        gsap.set(item, { opacity: 0, y: 50 });
+      }
 
-    ScrollTrigger.create({
-      trigger: item,
-      start: "center bottom",
-      end: "center top",
-      onEnter: () => {
-        gsap.to(item, { opacity: 1, y: 0 });
-        if (index > 0) {
-          gsap.to(items[index - 1], { opacity: 0, y: -50 });
-        }
-        if (index < items.length - 1) {
-          gsap.to(items[index + 1], {
-            opacity: 1,
-            y: 0,
-            ease: "power2.out",
-            duration: 0.5,
-          });
-        }
-      },
-      onLeaveBack: () => {
-        if (index > 0) {
-          gsap.to(items[index - 1], {
-            opacity: 1,
-            y: 0,
-            ease: "power2.out",
-            duration: 0.5,
-          });
-        }
-        if (index < items.length - 1) {
-          gsap.to(items[index + 1], { opacity: 0, y: 50 });
-        }
-        gsap.to(item, { opacity: 0, y: -50 });
-      },
-    });
+      ScrollTrigger.create({
+        trigger: item,
+        start: "center bottom",
+        end: "center top",
+        onEnter: () => {
+          gsap.to(item, { opacity: 1, y: 0 });
+          if (index > 0) {
+            gsap.to(items[index - 1], { opacity: 0, y: -50 });
+          }
+          if (index < items.length - 1) {
+            gsap.to(items[index + 1], {
+              opacity: 1,
+              y: 0,
+              ease: "power2.out",
+              duration: 0.5,
+            });
+          }
+        },
+        onLeaveBack: () => {
+          if (index > 0) {
+            gsap.to(items[index - 1], {
+              opacity: 1,
+              y: 0,
+              ease: "power2.out",
+              duration: 0.5,
+            });
+          }
+          if (index < items.length - 1) {
+            gsap.to(items[index + 1], { opacity: 0, y: 50 });
+          }
+          gsap.to(item, { opacity: 0, y: -50 });
+        },
+      });
+    } else {
+      gsap.set(item, { opacity: 1, y: 0 });
+    }
   });
 });
 </script>
